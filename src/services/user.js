@@ -42,18 +42,19 @@ class userServices {
         res.send(500);
         console.log(err.message);
       }
-
-      if (data.length > 0) {
-        res.status(200).json({ message: "Login successfully", data: data[0] });
-      }
-
       const data1 = {
         user: {
           id: data[0]["id"],
         },
       };
       const token = JWT.sign(data1, key);
-      console.log(token);
+      const resdata = {
+        data: data[0],
+        auth_token: token,
+      };
+      if (data.length > 0) {
+        res.status(200).json({ message: "Login successfully", data: resdata });
+      }
     });
   }
   async update(userInputs, res) {
@@ -63,6 +64,47 @@ class userServices {
         res.status(500);
       }
       res.status(200).json({ message: "Update Successfully", data: data });
+    });
+  }
+
+  async createCompany(userInputs, res) {
+    var query = Query.createCompany(userInputs);
+    db.query(query, (err, data) => {
+      if (err) {
+        console.log(err.message);
+        res.json({ message: "Internal server error" });
+      } else {
+        console.log(data);
+        res.status(200).json({ message: "Company Created Successfully" });
+      }
+    });
+  }
+  async updateCompany(userInputs, res) {
+    var query = Query.updateCompany(userInputs);
+    db.query(query, (err, data) => {
+      if (err) {
+        console.log(err.message);
+        res.json({ message: "Internal server error" });
+      } else {
+        res.status(200).json({ message: "Company updated Successfully" });
+      }
+    });
+  }
+  async featchCompany(id, res) {
+    var query = Query.featchCompany(id);
+    db.query(query, (err, data) => {
+      if (err) {
+        console.log(err.message);
+        res.json({ message: "Internal server error" });
+      } else {
+        if (data.length > 0) {
+          res
+            .status(200)
+            .json({ message: "featch successfully", data: data[0] });
+        } else {
+          res.status(200).json({ message: "No company found " });
+        }
+      }
     });
   }
 }
