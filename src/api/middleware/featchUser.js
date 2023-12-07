@@ -1,7 +1,7 @@
 const JWT = require("jsonwebtoken");
 
 const featchUser = (req, res, next) => {
-  const token = req.header("auth-token");
+  const token = req.header("auth_token");
   const key = process.env.JWT_KEY;
 
   if (!token) {
@@ -16,7 +16,7 @@ const featchUser = (req, res, next) => {
       next();
     } catch (err) {
       res
-        .status(401)
+        .status(200)
         .json({ message: "Please authenticate using a valid token." });
     }
   }

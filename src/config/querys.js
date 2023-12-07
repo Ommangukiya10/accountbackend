@@ -49,7 +49,7 @@ class Querys {
       UpdateDate,
     } = userInputs;
     const handleUndefined = (value) =>
-      value === undefined ? "null" : `'${value}'`;
+      value === undefined ? null : `'${value}'`;
 
     return `INSERT INTO tblcompany(userId,companyName,gstNumber,email,phoneNumber,address,city,state,country,postalCode,ownerName,ownerEmail,ownerPhoneNumber,businessType,createDate,UpdateDate) VALUES (${handleUndefined(
       id
@@ -109,14 +109,15 @@ class Querys {
       businessType
     )},UpdateDate = ${handleUndefined(UpdateDate)} WHERE id = ${handleUndefined(
       id
-    )};`;
+    )} ;`;
   };
 
   featchCompany = (id) => {
     return `select * from tblCompany Where userId= ${id.id}`;
   };
+  deleteCompany = (id) => {
+    return `delete from tblCompany Where id=${id}`;
+  };
 }
-deleteCompany = (userInputs) => {};
-featchCompany = (userInputs) => {};
 
 module.exports = Querys;

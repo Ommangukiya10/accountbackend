@@ -23,7 +23,7 @@ module.exports = (app) => {
   });
 
   //create company
-  app.post("/api/compnany", featchUser, (req, res) => {
+  app.post("/api/company", featchUser, (req, res) => {
     var data = req.body;
     var id = req.user;
     const combinedJson = {
@@ -35,7 +35,7 @@ module.exports = (app) => {
   });
 
   //update company
-  app.put("/api/compnany/:id", featchUser, (req, res) => {
+  app.put("/api/company/:id", featchUser, (req, res) => {
     var data = req.body;
     const id = req.params.id;
     const combinedJson = {
@@ -43,12 +43,22 @@ module.exports = (app) => {
       id,
     };
 
+    //updating Company
     user.updateCompany(combinedJson, res);
   });
 
-  app.get("/api/compnany", featchUser, (req, res) => {
+  app.get("/api/company", featchUser, (req, res) => {
     var datid = req.user;
-    // console.log({ ...datid });
+    
     user.featchCompany({ ...datid }, res);
+  });
+  //deleting Company
+  app.delete("/api/company/:id", featchUser, (req, res) => {
+    try {
+      var id = req.params.id;
+      user.deleteCommpany(id, res);
+    } catch (error) {
+      res.send(200).json({ message: "Internal Server Error" });
+    }
   });
 };
